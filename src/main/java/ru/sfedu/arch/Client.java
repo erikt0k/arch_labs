@@ -3,9 +3,12 @@ package ru.sfedu.arch;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.sfedu.arch.API.DataProviderCsv;
+import ru.sfedu.arch.API.DataProviderDB;
+import ru.sfedu.arch.API.DataProviderXML;
 import ru.sfedu.arch.utils.ConfigurationUtil;
 
 import java.io.FileReader;
@@ -21,24 +24,17 @@ public class Client {
 
     public static void main(String[] args) throws IOException {
         DataProviderCsv dataProviderCsv = new DataProviderCsv();
+        DataProviderXML dataProviderXML = new DataProviderXML();
+        DataProviderDB dataProviderDB = new DataProviderDB();
 
 
         try {
-
-            Reader reader = new FileReader(ConfigurationUtil.getConfigurationEntry(Constants.EMP_CSV_DS_PATH));
-            CSVReader csvReader = new CSVReader(reader);
-            log.info(csvReader);
-            String[] line;
-            while ((line = csvReader.readNext()) != null) {
-                log.info(Arrays.toString(line));
-            }
-
-            log.info("--------Beans--------");
-
-            List<Product> newMan = dataProviderCsv.loadBeanList();
-            //dataProviderCsv.getPathByBean(newMan);
-            log.info("NEW CHEL------"+dataProviderCsv.getPathByList(newMan));
-            dataProviderCsv.deleteRecord(1);
+           Product pivo = new Product();
+            pivo.setName("Baltika 9");
+            pivo.setPrice(70);
+            pivo.setId();
+            log.info("im starting to save pivo");
+            dataProviderDB.saveProductRecord(pivo);
 
 
         } catch (Exception e) {
